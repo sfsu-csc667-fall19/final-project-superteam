@@ -3,6 +3,7 @@ import md5 from 'md5';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { setUser, setIsLoggedIn } from '../redux/actions/userActions';
 import '../App.css';
 
 const options = {
@@ -27,7 +28,7 @@ const Login = ({ dispatch, isLoggedIn }) => {
                 if (res.data.valid) {
                     document.cookie = `username=${username}`;
                     document.cookie = `password=${md5(password)}`;
-                    dispatch(setIsLogged(true));
+                    dispatch(setIsLoggedIn(true));
                     dispatch(setUser(username));
                 }
                 else {
