@@ -65,10 +65,10 @@ const App = ({ dispatch, isLoggedIn }) => {
         <Route path="/login" component={Login} />
         <Route path="/" component={Home} />
       </Switch>
-      {/* <Router>
+      <Router>
         <Route path="/" exact component={Join} />
         <Route path="/chat" component={Chat} />
-      </Router> */}
+      </Router>
     </div>
   );
 }
