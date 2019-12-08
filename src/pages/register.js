@@ -3,52 +3,77 @@ import md5 from 'md5';
 import axios from 'axios';
 import '../App.css';
 
-const options = {
-    withCredentials: true
-};
-
-const Register = () => {
+const Login = () => {
+    const [firstName, setFirstName] = React.useState('');
+    const [surname, setSurname] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [error, setError] = React.useState('');
 
     const validate = () => {
+        if (firstName === '' ||
+            surname === '' ||
+            email === '' ||
+            username === '' ||
+            password === '') {
+            return setError('You forgot to enter some information!');
+        }
         const body = {
+            firstName,
+            surname,
+            email,
             username,
             password: md5(password),
         };
-        axios.post('/service1/register', body, options)
+        axios.post('/service1/register', body)
             .then((res) => {
                 console.log(res);
+                window.location = '/login';
             })
             .catch(console.log);
     };
 
     return (
-        <div>
-            <h1>Register</h1>
-            <header className="App-header">
-                <div className="form">
-                    <h3>Username</h3>
-                    <input
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                    <br />
-                    <h3>Password</h3>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                    <br />
-                    <button
-                        onClick={validate}
-                    >Submit</button>
-
-                </div>
-            </header>
+        <div className="login">
+            <div className="form">
+                <h1>Messenger</h1>
+                <input
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                />
+                <br />
+                <input
+                    placeholder="Last Name"
+                    value={surname}
+                    onChange={e => setSurname(e.target.value)}
+                />
+                <br />
+                <input
+                    placeholder="Email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                />
+                <br />
+                <input
+                    placeholder="Username"
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                />
+                <br />
+                <input
+                    placeholder="Password"
+                    type="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                />
+                <br />
+                <button onClick={validate}>Register</button>
+                <p className="error">{error}</p>
+            </div>
         </div>
     );
 };
 
-export default Register;
+export default Login;

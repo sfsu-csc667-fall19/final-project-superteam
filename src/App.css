@@ -1,38 +1,189 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.login {
+  display: table;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login div {
+  display: table-cell;
+  vertical-align: middle;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login h1 {
+  font-size: 50px;
+  transform: translateY(-40px);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.login a {
+  display: block;
+  width: 220px;
+  background-color: #1E90FF;
+  margin: 10px auto;
+  padding: 12px;
   color: white;
+  text-decoration: none;
+  border-radius: 7px;
 }
 
-.App-link {
-  color: #61dafb;
+.login a:hover {
+  background-color: #46A4FF;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form input {
+  width: 250px;
+  margin: 5px;
+  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 7px;
+}
+
+.form input:focus {
+  outline: none;
+  padding: 10px;
+  border: 3px solid #1E90FF;
+}
+
+.form button {
+  width: 150px;
+  background-color: #1E90FF;
+  margin: 20px auto;
+  padding: 12px;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+}
+
+.form button:hover {
+  background-color: #46A4FF;
+}
+
+.form button:focus {
+  outline: none;
+}
+
+.error {
+  color: red;
+}
+
+.messenger nav {
+  background-color: #1E90FF;
+  display: flex;
+}
+
+.messenger nav button {
+  background-color: #1E90FF;
+  padding: 15px 20px;
+  color: white;
+  border: 0;
+  margin-right: 0;
+}
+
+.messenger nav button:hover {
+  background-color: #46A4FF;
+}
+
+.messenger nav input {
+  width: 400px;
+  margin: auto;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 7px;
+}
+
+.messenger input:focus {
+  outline: none;
+}
+
+.search-result {
+  width: 100%;
+  padding: 20px 40px;
+  border-bottom: solid 1px rgba(0,0,0,0.1);
+  display: flex;
+}
+
+.search-result div {
+  margin: 0 auto 0 0;
+}
+
+.search-result h3 {
+  font-size: 25px;
+}
+
+.search-result p {
+  margin-top: 5px;
+  color: rgba(0,0,0,0.5);
+}
+
+.search-result button {
+  width: 130px;
+  background-color: #1E90FF;
+  margin-right: 0;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+}
+
+.search-result button:hover {
+  background-color: #46A4FF;
+}
+
+.search-result button:focus {
+  outline: none;
+}
+
+.main, .side-bar, .chat-area {
+  height: calc(100vh - 48px);
+}
+
+.main {
+  display: flex;
+}
+
+.side-bar {
+  width: 300px;
+  border-right: solid 1px rgba(0,0,0,0.1);
+}
+
+.chat-area {
+  width: calc(100% - 300px);
+  background-color: rgba(0,0,0,0.05);
+}
+
+.messenger {
+  display: block;
+}
+
+.message-field {
+  position: fixed;
+  bottom: 0;
+  padding: 15px;
+  width: calc(100% - 300px);
+  background-color: white;
+}
+
+.message-field input {
+  width: calc(100% - 80px);
+  padding: 8px 15px;
+  border: 0;
+  border-radius: 100px;
+  background-color: rgba(0,0,0,0.05);
+}
+
+.message-field button {
+  margin-left: 15px;
+  height: 34px;
+  width: 65px;
+  padding: 0px 15px;
+  border: 0;
+  border-radius: 100px;
+  background-color: #1E90FF;
+  color: white;
 }

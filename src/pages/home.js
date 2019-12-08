@@ -1,11 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../App.css';
 
 const Home = () => {
+
     return (
-        <div>
-            <h1>Home</h1>
-            <header className="App-header"/>
+        <div className="login">
+            <div>
+                <h1>Messenger</h1>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+            </div>
         </div>
     );
 };
