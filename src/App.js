@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
+import Login  from './pages/Login';
+import Register  from './pages/Register';
+import Landing from './pages/Landing';
+import Navbar from './pages/Navbar';
+import { Route, HashRouter, Switch } from "react-router-dom";
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <HashRouter>
+        <Navbar/>
+        <Switch>
+            <Route exact path='/' component={Landing}/>
+            <Route path='/login' component={Login}/>
+            <Route path='/register' component={Register}/>
+        </Switch>
+      </HashRouter>
   );
 }
 

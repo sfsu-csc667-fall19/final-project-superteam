@@ -1,0 +1,12 @@
+import { combineReducers } from 'redux';
+import notesReducer from './notesReducer';
+import loginReducer from './loginReducer';
+import registerReducer from './registerReducer';
+import topicReducer from './topicReducer';
+
+export default combineReducers({
+  loginReducer,
+  registerReducer,
+  topicReducer,
+  notesReducer,
+});
