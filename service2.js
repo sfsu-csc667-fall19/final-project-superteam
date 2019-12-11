@@ -23,11 +23,11 @@ const db = mongo.db(dbName);
 
 app.post('/service2/create', (req, res) => {
     // console.log(JSON.stringify(req.body));
-    mems = []
-    for (let key in req.body){
-        // console.log("req.body.key: " + req.body[key]);
-        mems.push(req.body[key]);
-    }
+    mems = req.body.members;
+    // for (let key in req.body){
+    //     // console.log("req.body.key: " + req.body[key]);
+    //     mems.push(req.body[key]);
+    // }
     mems.sort();
     console.log('mems: ', mems);
     db.collection('groups')
@@ -96,6 +96,7 @@ const client = redis.createClient();
 
 const messages = [];
 
+// GET RID OF IF RESPONSE.MESSAGES TO RETURN TO PRIOR STATE
 const buildMessages = (groups) => {
     for (var i=0; i<groups.length; i++) {
         db.collection('groups')
@@ -132,8 +133,8 @@ const broadcastAllMessages = (newMessage) => {
 
 wss.on('connection', (ws) => {
     client.get(0, (err, cachedValue) => {
-        console.log('service2/connection');
-        console.log(JSON.parse(cachedValue));
+        // console.log('service2/connection');
+        // console.log(JSON.parse(cachedValue));
         ws.id = JSON.parse(cachedValue)._id;
         buildMessages(JSON.parse(cachedValue).groups);
     })
