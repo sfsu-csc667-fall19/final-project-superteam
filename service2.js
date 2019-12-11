@@ -22,9 +22,18 @@ mongo.connect((err) => {
 const db = mongo.db(dbName);
 
 app.post('/service2/create', (req, res) => {
+    // console.log(JSON.stringify(req.body));
+    mems = []
+    for (let key in req.body){
+        // console.log("req.body.key: " + req.body[key]);
+        mems.push(req.body[key]);
+    }
+    mems.sort();
+    console.log('mems: ', mems);
     db.collection('groups')
         .insertOne({
             messages: [],
+            members: mems,
         })
         .then((docs) => {
             console.log(docs.insertedId);
@@ -33,6 +42,28 @@ app.post('/service2/create', (req, res) => {
                     groups: docs.insertedId,
                 }
             }
+            // JORDAN
+            returnObj = null;
+            db.collection('users')
+            .find({_id: ObjectID.createFromHexString(req.body.me)})
+            .toArray(//(err, res) => {
+            //     if (err) {
+            //         console.log(err);
+            //     }
+            //     console.log('res: ');
+            //     console.log(res);
+            //     returnObj = res;
+            // })
+            ).then((res) => {
+                // console.log('logging from findone.then');
+                // console.log(res);
+                // if (docs.insertedId in res.groups){
+                //     console.log()
+                // }
+            })
+            .catch(e=>console.log(e));
+            
+            // JORDAN
 
             db.collection('users')
                 .findOneAndUpdate({
@@ -101,6 +132,8 @@ const broadcastAllMessages = (newMessage) => {
 
 wss.on('connection', (ws) => {
     client.get(0, (err, cachedValue) => {
+        console.log('service2/connection');
+        console.log(JSON.parse(cachedValue));
         ws.id = JSON.parse(cachedValue)._id;
         buildMessages(JSON.parse(cachedValue).groups);
     })

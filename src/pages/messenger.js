@@ -14,7 +14,7 @@ const Messenger = ({ user, messages }) => {
             .catch(console.log);
     }, [])
 
-    console.log(user.groups);
+    console.log('user.groups: ', JSON.stringify(user));
 
     const [userList, setUserList] = React.useState([]);
     const [users, setUsers] = React.useState([]);
@@ -56,10 +56,12 @@ const Messenger = ({ user, messages }) => {
     }
 
     const createChat = (id) => {
+        // console.log('user_id= ' + id);
         const body = {
             me: user._id,
             you: id,
         }
+        // console.log('body: ' + JSON.stringify(body));
         axios.post('/service2/create', body)
             .then((res) => {
                 console.log(res);
@@ -83,6 +85,8 @@ const Messenger = ({ user, messages }) => {
             </div>
             <div className="chat-area">
                 {messages.map((message, i) => <div key={i} className="message">{message}</div>)}
+
+                
                 <div className="message-field">
                     <input
                         value={message}

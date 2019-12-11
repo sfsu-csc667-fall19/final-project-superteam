@@ -54,7 +54,7 @@ app.post('/service1/login', (req, res) => {
                 client.set(req.body.username + '_' + req.body.password, true);
                 client.set(0, JSON.stringify(docs));
             }
-            console.log(docs);
+            console.log('docs: ', docs);
             res.send(docs);
         })
         .catch((e) => {

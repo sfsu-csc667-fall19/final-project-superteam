@@ -18,7 +18,7 @@ const Login = () => {
                 if (res.data) {
                     document.cookie = `username=${username}`;
                     document.cookie = `password=${md5(password)}`;
-
+                    // dispatch(setU)
                     window.location = '/messenger';
                 } else {
                     document.cookie = 'username=username';
