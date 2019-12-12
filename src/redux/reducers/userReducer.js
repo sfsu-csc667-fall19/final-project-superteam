@@ -1,19 +1,13 @@
 const INITIAL_STATE = {
-    user: [],
-    isLoggedIn: false,
+    isLoading: true,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'SET_IS_LOGGED_IN':
+        case 'SET_IS_LOADING':
             return {
                 ...state,
-                isLoggedIn: action.isLoggedIn,
-            };
-        case 'SET_USER':
-            return {
-                ...state,
-                user: action.user,
+                isLoading: action.isLoading,
             };
         default:
             return state;

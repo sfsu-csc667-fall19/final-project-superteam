@@ -5,7 +5,7 @@ import '../App.css';
 
 const Login = () => {
     const [firstName, setFirstName] = React.useState('');
-    const [surname, setSurname] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -13,7 +13,7 @@ const Login = () => {
 
     const validate = () => {
         if (firstName === '' ||
-            surname === '' ||
+            lastName === '' ||
             email === '' ||
             username === '' ||
             password === '') {
@@ -21,12 +21,12 @@ const Login = () => {
         }
         const body = {
             firstName,
-            surname,
+            lastName,
             email,
             username,
             password: md5(password),
         };
-        axios.post('/service1/register', body)
+        axios.post('/users/register', body)
             .then((res) => {
                 console.log(res);
                 window.location = '/login';
@@ -46,8 +46,8 @@ const Login = () => {
                 <br />
                 <input
                     placeholder="Last Name"
-                    value={surname}
-                    onChange={e => setSurname(e.target.value)}
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
                 />
                 <br />
                 <input

@@ -1,8 +1,7 @@
 const express = require('express');
 const redis = require('redis');
-const axios = require('axios');
 const cookierParser = require('cookie-parser');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const client = redis.createClient();
 
@@ -24,26 +23,24 @@ mongo.connect((err) => {
 
 const db = mongo.db('project');
 
-app.post('/service1/register', (req, res) => {
+app.post('/users/register', (req, res) => {
     db.collection('users')
         .insertOne({
             firstName: req.body.firstName,
-            surname: req.body.surname,
+            lastName: req.body.lastName,
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
             groups: [],
         })
         .then((docs) => {
-            console.log('Account', req.body.username, 'created!');
+            console.log('Account', docs.insertedId, 'created!');
             res.send('Account created!');
         })
-        .catch((e) => {
-            console.log(e);
-        });
+        .catch(console.log);
 });
 
-app.post('/service1/login', (req, res) => {
+app.post('/users/login', (req, res) => {
     db.collection('users')
         .findOne({
             username: req.body.username,
@@ -52,25 +49,20 @@ app.post('/service1/login', (req, res) => {
         .then((docs) => {
             if (docs) {
                 client.set(req.body.username + '_' + req.body.password, true);
-                client.set(0, JSON.stringify(docs));
             }
-            console.log(docs);
             res.send(docs);
+            console.log(docs);
         })
-        .catch((e) => {
-            console.log(e);
-        });
+        .catch(console.log);
 });
 
-app.post('/service1/logout', (req, res) => {
-    const key = req.cookies.username + '_' + req.cookies.password;
-
-    client.set(key, false);
+app.post('/users/logout', (req, res) => {
+    client.set(req.cookies.username + '_' + req.cookies.password, false);
 
     return res.send('Logged out!');
 });
 
-app.get('/service1/verify', (req, res, next) => {
+app.get('/users/verify', (req, res, next) => {
     if (!req.cookies.username || !req.cookies.password) {
         res.status(403);
         return res.send('Access denied!');
@@ -83,7 +75,7 @@ app.get('/service1/verify', (req, res, next) => {
 
     client.get(key, (err, cachedValue) => {
         if (cachedValue === null) {
-            axios.post('http://localhost:3001/service1/login', body)
+            axios.post('http://localhost:3001/users/login', body)
                 .then((res) => {
                     if (res.data) {
                         client.set(key, true);
@@ -106,22 +98,71 @@ app.get('/service1/verify', (req, res, next) => {
     });
 });
 
-app.get('/service1/verify', (req, res) => {
-    client.get(0, (err, cachedValue) => {
-        res.send(cachedValue);
-    })
+app.get('/users/verify', (req, res) => {
+    res.send(req.cookies.firstName + ' ' + req.cookies.lastName);
 });
 
-app.get('/service1/search', (req, res) => {
+app.get('/users/getUsers', (req, res) => {
     db.collection('users')
         .find()
         .toArray()
         .then((docs) => {
             res.send(docs);
         })
+        .catch(console.log);
+});
+
+app.post('/users/createGroup', (req, res) => {
+    db.collection('groups')
+        .insertOne({
+            messages: [],
+        })
+        .then((docs) => {
+            console.log(docs.insertedId);
+            const updater = {
+                $push: {
+                    groups: docs.insertedId,
+                }
+            }
+
+            db.collection('groups')
+                .findOneAndUpdate({
+                    _id: docs.insertedId,
+                }, {
+                    $push: {
+                        messages: {
+                            group: docs.insertedId,
+                            message: "Welcome to your new group!",
+                            author: "Admin",
+                        }
+                    }
+                })
+                .then(() => {
+
+                })
+                .catch(console.log);
+
+            db.collection('users')
+                .findOneAndUpdate({
+                    _id: new ObjectID(req.cookies.id),
+                }, updater)
+                .then((docs) => {
+                    console.log(docs);
+                })
+                .catch(console.log);
+
+            db.collection('users')
+                .findOneAndUpdate({
+                    _id: new ObjectID(req.body.you),
+                }, updater)
+                .then(() => {
+
+                })
+                .catch(console.log);
+        })
         .catch((e) => {
-            res.send('Error');
+            console.log(e);
         });
 });
 
-app.listen(port, () => console.log(`Service 1 on port ${port}!`))
+app.listen(port, () => console.log(`Users on port ${port}!`))

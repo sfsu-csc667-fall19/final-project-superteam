@@ -13,16 +13,22 @@ const Login = () => {
             username,
             password: md5(password),
         };
-        axios.post('/service1/login', body, { withCredentials: true })
+        axios.post('/users/login', body, { withCredentials: true })
             .then((res) => {
                 if (res.data) {
-                    document.cookie = `username=${username}`;
-                    document.cookie = `password=${md5(password)}`;
+                    document.cookie = `id=${res.data._id}`;
+                    document.cookie = `username=${res.data.username}`;
+                    document.cookie = `password=${res.data.password}`;
+                    document.cookie = `firstName=${res.data.firstName}`;
+                    document.cookie = `lastName=${res.data.lastName}`;
 
                     window.location = '/messenger';
                 } else {
+                    document.cookie = 'id=id';
                     document.cookie = 'username=username';
                     document.cookie = 'password=password';
+                    document.cookie = 'firstName=firstName';
+                    document.cookie = 'lastName=lastName';
                     setError('Username or password incorrect!')
                 }
             })

@@ -4,24 +4,25 @@ const httpProxy = require('http-proxy');
 const app = express();
 const port = 80;
 
-const apiProxy = httpProxy.createProxyServer();
+const apiProxy = httpProxy.createProxyServer(app);
+
 
 apiProxy.on('error', (err, req, res) => {
     console.log(err);
     res.status(500).send('Proxy Error');
 });
 
-app.all('/service1/*', (req, res) => {
-    console.log(req.path);
-    apiProxy.web(req, res, {
-        target: 'http://localhost:3001',
-    });
-});
-
-app.all('/service2/*', (req, res) => {
+app.all('/messenger/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
         target: 'http://localhost:3002',
+    });
+});
+
+app.all('/users/*', (req, res) => {
+    console.log(req.path);
+    apiProxy.web(req, res, {
+        target: 'http://localhost:3001',
     });
 });
 
