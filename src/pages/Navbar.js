@@ -4,7 +4,6 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setIsLoggedIn } from '../redux/actions/loginActions';
-import { setIsEditClicked, setIsNoteAdded, setIsEditSubmitted, setPreviousNotes } from '../redux/actions/notesActions';
 import { setIsUserCreated } from '../redux/actions/registerActions';
 
 const NavbarLink = ({ dispatch, isLoggedIn, username }) => {
@@ -14,10 +13,6 @@ const NavbarLink = ({ dispatch, isLoggedIn, username }) => {
         //reset all boolean state to initial state
         dispatch(setIsLoggedIn(false)); 
         dispatch(setIsUserCreated(false));
-        dispatch(setIsEditClicked(false));
-        dispatch(setIsNoteAdded(false));
-        dispatch(setIsEditSubmitted(false));
-        dispatch(setPreviousNotes(''));
     }
 
     let nav;
@@ -35,10 +30,7 @@ const NavbarLink = ({ dispatch, isLoggedIn, username }) => {
 
     return(
         <Navbar bg="light justify-content-between" variant="light" sticky="top">
-            <Navbar.Brand className="nav-brand" to="/">NoteTaking</Navbar.Brand>
-            <Nav>
-                <NavLink className="nav-link" to="/">Notes</NavLink>
-            </Nav>
+            <Navbar.Brand className="nav-brand" to="/">TrendChat</Navbar.Brand>
             {nav}
       </Navbar>
     )
@@ -48,8 +40,6 @@ const mapStateToProps = state => ({
     isUserCreated: state.registerReducer.isUserCreated,
     username: state.loginReducer.username,
     isLoggedIn: state.loginReducer.isLoggedIn,
-    isEditClicked: state.notesReducer.isEditClicked,
-    isNoteAdded: state.notesReducer.isEditClicked,
 });
 
 export default connect(mapStateToProps)(NavbarLink);

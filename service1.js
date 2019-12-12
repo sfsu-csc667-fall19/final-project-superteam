@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const app = express();
-const mongoURI = 'mongodb://localhost:27017/notes_collection';
+const mongoURI = 'mongodb://localhost:27017/chatDB';
 
 const port = process.env.PORT || 3001;
 

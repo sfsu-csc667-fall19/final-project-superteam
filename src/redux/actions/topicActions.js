@@ -13,6 +13,10 @@ export const setTopic = topic => ({
     type: 'SET_MESSAGE',
     message,
   });
+  export const setSenderName = senderName => ({ 
+    type: 'SET_SENDER_NAME',
+    senderName,
+  });
 
   export const setIsNewTopicAdded = isNewTopicAdded => ({ 
     type: 'SET_IS_NEW_TOPIC_ADDED',
@@ -52,3 +56,4 @@ export const getAllTopic = () => (dispatch, getState) => {
         })
         .then(console.log);
 }
+

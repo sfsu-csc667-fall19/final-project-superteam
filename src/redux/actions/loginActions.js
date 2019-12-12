@@ -1,6 +1,5 @@
 import axios from 'axios';
 import md5 from 'md5';
-import jwt_decode from 'jwt-decode'
 
 export const setEmail = email => ({ 
     type: 'SET_EMAIL',
@@ -27,7 +26,7 @@ export const setIsLoggedIn = isLoggedIn => ({
 });
 
 export const verifyUser = () => (dispatch, getState) => {
-    const { email, password, loggedInUser } = getState().loginReducer;
+    const { email, password } = getState().loginReducer;
     return axios.post('/service1/login', {
         email: email,
         password: md5(password),

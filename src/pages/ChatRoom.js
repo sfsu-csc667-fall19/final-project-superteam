@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from 'react-redux';
 import Messages from "./Messages";
@@ -6,7 +6,7 @@ import NewTopic from "./NewTopic";
 import ShowTopic from './ShowTopic';
 import Input from "./Input";
 import io from "socket.io-client";
-import { setMessages, setMessage } from '../redux/actions/topicActions';
+import { setMessages, setMessage, setSenderName} from '../redux/actions/topicActions';
 
 let socket;
 
@@ -25,6 +25,7 @@ const ChatRoom = ({dispatch, currentTopic, username, messages, message}) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
+      dispatch(setSenderName(message.username));
       dispatch(setMessages(message.text));
     }, [messages]);
 

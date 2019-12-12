@@ -2,6 +2,7 @@ const INITIAL_STATE = {
     topic: '',
     currentTopic: '',
     message: '',
+    senderName: '',
     allTopic: [],
     messages: [],
     isNewTopicAdded: false,
@@ -34,6 +35,11 @@ const INITIAL_STATE = {
             return {
                 ...state, 
                 messages: [...state.messages, action.messages],
+        };
+        case 'SET_SENDER_NAME':
+            return {
+                ...state, 
+                senderName: action.senderName,
         };
         case 'SET_IS_NEW_TOPIC_ADDED':
           return {

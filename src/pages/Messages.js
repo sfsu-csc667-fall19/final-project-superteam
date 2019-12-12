@@ -1,20 +1,19 @@
 import React from 'react';
-import { Col, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Message from './Message';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
-const Messages = ({ username, messages }) => (
+const Messages = ({ senderName, messages }) => (
     <ScrollToBottom > 
         {messages.map((message, i) => (    
-          <Message key={i} message={message} username={username}/>
+          <Message key={i} message={message} senderName={senderName}/>
       ))}
     </ScrollToBottom>
 );
 
 const mapStateToProps = state => ({
     messages: state.topicReducer.messages,
-    username: state.loginReducer.username,
+    senderName: state.topicReducer.senderName,
 });
 
 export default connect(mapStateToProps)(Messages);
