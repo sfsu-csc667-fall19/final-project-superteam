@@ -10,19 +10,35 @@ import rootReducer from './redux/reducers/rootReducer';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import thunk from 'redux-thunk';
+import rootReducer from './redux/reducers/rootReducer';
+import { Provider } from 'react-redux';
+import { insertMessage } from './redux/actions/messageActions';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
+
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+
+const webSocket = new WebSocket('ws://localhost:3003');
+
+
+webSocket.onmessage = (message) => {
+    const parsed = JSON.parse(message.data);
+    console.log(parsed);
+    if (parsed.channel === 'messages') {
+        store.dispatch(insertMessage(JSON.parse(parsed.message)));
+    }
+};
+
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <App />
         </Router>
     </Provider>
-    ,
-    document.getElementById('root')
+    , document.getElementById('root')
 );
-
-// ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
