@@ -4,9 +4,12 @@ import Login from './pages/login';
 import Register from './pages/register';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { setUser, setIsLoggedIn } from './redux/actions/userActions'
 import './App.css';
+
+import Chat from './components/Chat/Chat';
+import Join from './components/Join/Join';
 
 // function App() {
 //   return (
@@ -62,6 +65,10 @@ const App = ({ dispatch, isLoggedIn }) => {
         <Route path="/login" component={Login} />
         <Route path="/" component={Home} />
       </Switch>
+      <Router>
+        <Route path="/" exact component={Join} />
+        <Route path="/chat" component={Chat} />
+      </Router>
     </div>
   );
 }
