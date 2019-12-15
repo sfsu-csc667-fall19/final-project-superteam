@@ -2,12 +2,12 @@ FROM node:10-alpine
 
 
 
-WORKDIR /main
-COPY package*.json main/
+WORKDIR /main/
+COPY package*.json ./
 
 RUN npm install
 
-COPY . main/
+COPY . .
 EXPOSE 80
 
 CMD ["npm", "start"]
