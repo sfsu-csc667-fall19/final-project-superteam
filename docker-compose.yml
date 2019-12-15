@@ -2,7 +2,6 @@ version: '3'
 services:
   web:
     image: final-project
-    context: DockerFilePython
     # deploy:
     #   replicas: 4
     #   restart_policy:
@@ -11,13 +10,14 @@ services:
       - "3000:3000"
     networks:
       - webnet
-    environment:
-      - REDIS_HOST=redis
+    # environment:
+    #   - REDIS_HOST=redis
     depends_on:
       - mongo
       - websocket
       - messenger
       - users
+      - redis
   users:
     build: ./users.js
     ports: ["3001:3001"]
