@@ -8,33 +8,33 @@ services:
         condition: on-failure
     ports:
       - "3000:3000"
-      - "3001:3001"
-      - "3002:3002"
-      - "3003:3003"
+      # - "3001:3001"
+      # - "3002:3002"
+      # - "3003:3003"
     networks:
       - webnet
     environment:
       - REDIS_HOST=redis
     depends_on:
       - mongo
-    #   - websocket
-    #   - messenger
-    #   - users
-    #   - redis
-  # users:
-  #   build: .
-  #   ports: ["3001:3001"]
-  #   depends_on:
-  #     - mongo
-  #     - redis
-  # messenger:
-  #   build: .
-  #   ports: ["3002:3002"]
-  # websocket:
-  #   build: .
-  #   ports: ["3003:3003"]
-  #   depends_on:
-  #     - redis
+      - websocket
+      - messenger
+      - users
+      - redis
+  users:
+    build: .
+    ports: ["3001:3001"]
+    depends_on:
+      - mongo
+      - redis
+  messenger:
+    build: .
+    ports: ["3002:3002"]
+  websocket:
+    build: .
+    ports: ["3003:3003"]
+    depends_on:
+      - redis
   redis:
     image: redis:5.0.4
     ports:
