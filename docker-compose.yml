@@ -19,13 +19,16 @@ services:
       - users
       - redis
   users:
-    build: ./users.js
+    build:
+      context: ./users.js
     ports: ["3001:3001"]
   messenger:
-    build: ./messenger.js
+    build:
+      context: ./users.js
     ports: ["3002:3002"]
   websocket:
-    build: ./websocket.js
+    build:
+      context: ./users.js
     ports: ["3003:3003"]
   redis:
     image: redis:5.0.4
