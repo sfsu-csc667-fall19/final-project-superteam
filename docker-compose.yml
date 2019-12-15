@@ -16,15 +16,21 @@ services:
       - webnet
     environment:
       - REDIS_HOST=redis
-    # depends_on:
-    #   - mongo
+    depends_on:
+      - mongo
   redis:
-    image : redis:5.0.4
+    image: redis:5.0.4
     ports:
       - "6379:6379"
     deploy:
       placement:
         constraints: [node.role == manager]
+    networks:
+      - webnet
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
     networks:
       - webnet
 networks:
