@@ -19,13 +19,13 @@ services:
       - users
   users:
     build: ./users.js
-    port: "3001:3001"
+    ports: ["3001:3001"]
   messenger:
     build: ./messenger.js
-    port: "3002:3002"
+    ports: ["3002:3002"]
   websocket:
     build: ./websocket.js
-    port: "3003:3003"
+    ports: ["3003:3003"]
   redis:
     image: redis:5.0.4
     ports:
