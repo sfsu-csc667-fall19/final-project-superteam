@@ -2,10 +2,10 @@ version: '3'
 services:
   web:
     image: final-project
-    deploy:
-      replicas: 4
-      restart_policy:
-        condition: on-failure
+    # deploy:
+    #   replicas: 4
+    #   restart_policy:
+    #     condition: on-failure
     ports:
       - "3000:3000"
     networks:
@@ -14,7 +14,18 @@ services:
       - REDIS_HOST=redis
     depends_on:
       - mongo
-  
+      - websocket
+      - messenger
+      - users
+  users:
+    build: ./users.js
+    ports: "3001:3001"
+  messenger:
+    build: ./messenger.js
+    ports: "3002:3002"
+  websocket:
+    build: ./websocket.js
+    ports: "3003:3003"
   redis:
     image: redis:5.0.4
     ports:
