@@ -2,6 +2,7 @@ version: '3'
 services:
   web:
     image: final-project
+    context: DockerFilePython
     # deploy:
     #   replicas: 4
     #   restart_policy:
