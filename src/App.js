@@ -3,7 +3,9 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import Messenger from './pages/messenger';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import Chat from './components/Chat/Chat';
+import Join from './components/Join/Join';
 import './App.css';
 
 function App() {  

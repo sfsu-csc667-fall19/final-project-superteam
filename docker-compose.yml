@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    image: final-project
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5000:80"
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+      - ""
+    networks:
+      - webnet
+    environment:
+      - REDIS_HOST=redis
+    # depends_on:
+    #   - mongo
+  redis:
+    image : redis:5.0.4
+    ports:
+      - "6379:6379"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
