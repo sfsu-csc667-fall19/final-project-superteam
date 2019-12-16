@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer';
 import { Provider } from 'react-redux';
 import { insertMessage } from './redux/actions/messageActions';
+import { insertGroup } from './redux/actions/groupActions';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 
@@ -15,12 +16,13 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const webSocket = new WebSocket('ws://localhost:3003');
 
-
 webSocket.onmessage = (message) => {
     const parsed = JSON.parse(message.data);
-    console.log(parsed);
     if (parsed.channel === 'messages') {
         store.dispatch(insertMessage(JSON.parse(parsed.message)));
+    }
+    if (parsed.channel === 'groups') {
+        store.dispatch(insertGroup(JSON.parse(parsed.message)));
     }
 };
 

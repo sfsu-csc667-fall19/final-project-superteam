@@ -10,16 +10,16 @@ wss.on('connection', (ws) => {
 });
 
 client.on('message', (channel, message) => {
-    console.log(`Subscriber hears message ${message}`);
-    console.log(channel);
-    const send = JSON.stringify({
+    console.log(`Subscriber hears message ${message} on channel ${channel}`);
+    const data = JSON.stringify({
         message,
         channel,
     });
 
     wss.clients.forEach((client) => {
-        client.send(send);
+        client.send(data);
     });
 });
 
 client.subscribe('messages');
+client.subscribe('groups');
