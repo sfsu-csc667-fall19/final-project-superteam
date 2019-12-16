@@ -48,61 +48,36 @@ app.post('/messenger/postMessage', (req, res) => {
 });
 
 app.get('/messenger/getMessages', (req, res) => {
-    db.collection('users')
-        .findOne({
-            _id: ObjectID.createFromHexString(req.cookies.id),
-        })
+    db.collection('groups')
+        .distinct('messages')
         .then((docs) => {
-            var i;
-            var j;
-            var length = docs.groups.length;
-
-            let groups = [];
-            let messages = [];
-            let members = [];
-
-            const lastGroup = docs.groups[docs.groups.length-1];
-
-            for (i = 0; i < length; i++) {
-                let current = docs.groups[i];
-                                
-                db.collection('users')
-                    .find({
-                        groups: current,
-                    })
-                    .toArray()
-                    .then((docs) => {
-                        console.log(docs);
-                        groups.push({
-                            group: current,
-                            members: docs,
-                        });
-                    })
-                    .catch(console.log);
-                
-                db.collection('groups')
-                    .findOne({
-                        _id: current,
-                    })
-                    .then((docs) => {
-
-                        for (j = 0; j < docs.messages.length; j++) {
-                            messages.push(docs.messages[j]);
-                        }
-                        const same = new ObjectID(lastGroup).equals(new ObjectID(docs.messages[0].group))
-                        if (j === docs.messages.length && i === length && same) {
-                            const body = {
-                                groups,
-                                messages,
-                                members,
-                            }
-                            res.send(body);
-                        }
-                    })
-                    .catch(console.log);
-            }
+            res.send(docs);
         })
         .catch(console.log);
 });
+
+app.post('/messenger/postGroup', (req, res) => {
+    db.collection('groups')
+        .insertOne({
+            members: [req.body.you, req.body.them],
+            messages: [],
+        })
+        .then((docs) => {
+            client.publish('groups', JSON.stringify(docs.ops[0]));
+            res.send(docs.ops[0]);
+        })
+        .catch(console.log);
+});
+
+app.get('/messenger/getGroups', (req, res) => {
+    db.collection('groups')
+        .find()
+        .toArray()
+        .then((docs) => {
+            res.send(docs);
+        })
+        .catch(console.log);
+});
+
 
 app.listen(port, () => console.log(`Messenger on port ${port}!`))

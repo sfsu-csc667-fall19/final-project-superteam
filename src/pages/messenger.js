@@ -1,29 +1,20 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
 import { setIsLoading } from '../redux/actions/userActions';
-import { updateMessages, handlTextChange, submitMessage } from '../redux/actions/messageActions';
+import { updateMessages, handleTextChange, submitMessage } from '../redux/actions/messageActions';
+import { updateGroups, handleGroupChange, submitGroup } from '../redux/actions/groupActions';
 import '../App.css';
 
-const Messenger = ({ dispatch, isLoading, text, messages }) => {
+const Messenger = ({ dispatch, isLoading, text, currentGroup, groups, messages }) => {
     React.useEffect(() => {
         axios.get('/users/verify', { withCredentials: true })
             .then((res) => {
                 console.log(res);
-                setName(res.data);
             })
             .catch(() => {
                 window.location = '/';
-            });
-        axios.get('/messenger/getMessages', { withCredentials: true })
-            .then((res) => {
-                setGroups(res.data.groups);
-                dispatch(updateMessages(res.data.messages));
-                console.log(res.data);
-                dispatch(setIsLoading(false));
-            })
-            .catch((e) => {
-                console.log(e);
             });
         axios.get('/users/getUsers', { withCredentials: true })
             .then((res) => {
@@ -32,49 +23,26 @@ const Messenger = ({ dispatch, isLoading, text, messages }) => {
             .catch((e) => {
                 console.log(e);
             });
-
+        axios.get('/messenger/getMessages', { withCredentials: true })
+            .then((res) => {
+                dispatch(updateMessages(res.data));
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+        axios.get('/messenger/getGroups', { withCredentials: true })
+            .then((res) => {
+                dispatch(updateGroups(res.data));
+                dispatch(setIsLoading(false));
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }, [dispatch]);
 
-    const [name, setName] = React.useState('');
     const [userList, setUserList] = React.useState([]);
     const [users, setUsers] = React.useState([]);
     const [query, setQuery] = React.useState('');
-    const [groups, setGroups] = React.useState([]);
-    const [currentGroup, setCurrentGroup] = React.useState('');
-
-    const search = (query) => {
-        setQuery(query);
-
-        // Dealt with possible injection attack by only keeping alphanumerical input.
-        var regex = '/' + query.replace(new RegExp('[^a-zA-Z0-9]'), '') + '/';
-
-        const temp = [];
-        if (regex === '//') {
-            setUsers([])
-        } else {
-            for (var i = 0; i < userList.length; i++) {
-                // eslint-disable-next-line
-                if (userList[i].username.match(eval(regex))) {
-                    //if (userList[i].username !== user.username) {
-                    temp.push(userList[i]);
-                    //}
-                }
-            }
-        }
-        // Sorting users by edit distance.
-        setUsers(temp);
-    }
-
-    const createChat = (id) => {
-        const body = {
-            you: id,
-        }
-        axios.post('/users/createGroup', body, { withCredentials: true })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch(console.log);
-    }
 
     const logOut = () => {
         axios.post('/users/logout')
@@ -92,76 +60,113 @@ const Messenger = ({ dispatch, isLoading, text, messages }) => {
             });
     }
 
-    const onSubmit = () => {
-        dispatch(submitMessage(currentGroup));
+    const search = (e) => {
+        setQuery(e.target.value);
+
+        var regex = '/' + e.target.value.replace(new RegExp('[^a-zA-Z0-9]'), '') + '/';
+
+        const temp = [];
+        if (regex === '//') {
+            setUsers([])
+        } else {
+            for (var i = 0; i < userList.length; i++) {
+                // eslint-disable-next-line
+                if (userList[i].username.match(eval(regex))) {
+                    if (userList[i].username !== Cookies.get('username')) {
+                        temp.push(userList[i]);
+                    }
+                }
+            }
+        }
+        setUsers(temp);
     }
 
-    const handleTextChange = (e) => {
-        dispatch(handlTextChange(e.target.value));
-
-        console.log(groups.map((group) => group))
-        console.log(messages.map((message) => message.group === currentGroup && (message)))
+    const sendMessage = () => {
+        dispatch(submitMessage());
     }
 
-    let sideComponent = <div></div>
+    const createChat = (them) => {
+        const body = {
+            you: [Cookies.get('username'), Cookies.get('firstName') + ' ' + Cookies.get('lastName')],
+            them: them,
+        }
+        dispatch(submitGroup(body));
+        setQuery('');
+    }
 
-    let messagesComponent = <div></div>
+    const textChange = (e) => {
+        dispatch(handleTextChange(e.target.value));
+    }
 
-    if (!isLoading) {
-        sideComponent =
-            <div>
-                {groups.map((group, i) =>
-                    <div key={i}>
-                        <button onClick={() => setCurrentGroup(group.group)}>{group.group}</button>
-                    </div>
-                )}
-            </div>
+    const groupChange = (group) => {
+        dispatch(handleGroupChange(group));
+    }
 
-        messagesComponent =
-            <div>
-                {messages.map((message, i) =>
-                    ((message.group === currentGroup) && (message.author !== name)) ? (
-                        <div key={i} className="message">
-                            <p>{message.author}</p>
-                            <div className="message-container">
-                                <div className="other-message">
-                                    {message.message}
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        ((message.group === currentGroup) && (message.author === name)) ? (
-                            <div key={i} className="message right">
-                                <p>{message.author}</p>
-                                <div className="message-container">
-                                    <div className="your-message">
-                                        {message.message}
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div key={i}>
-                            </div>
-                        )
-                    )
-                )}
-            </div>
+    const inGroup = (members) => {
+        for (var i=0; i < members.length; i++) {
+            if (Cookies.get('username') === members[i][0]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     let mainComponent =
         <div className="main">
             <div className="side-bar">
-                {sideComponent}
+                {groups.map((group, i) =>
+                    (inGroup(group.members)) ? (
+                        <div key={i}>
+                            <button onClick={() => groupChange(group)}>
+                                {group.members.map((member, i) => 
+                                    (member[0] !== Cookies.get('username')) && (
+                                        member[1]
+                                    )
+                                )}
+                                <br />
+                            </button>
+                        </div>
+                    ) : (
+                        <div key={i}></div>
+                    )
+                )}
             </div>
             <div className="chat-area">
-                {messagesComponent}
+                {messages.map((message, i) =>
+                    ((message.group === currentGroup._id) && (message.author === Cookies.get('firstName') + ' ' + Cookies.get('lastName'))) ? (
+                        <div key={i} className="message right">
+                            <p>{message.author}</p>
+                            <div className="message-container">
+                                <div className="your-message">
+                                    {message.message}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        ((message.group === currentGroup._id) && (message.author !== Cookies.get('firstName') + ' ' + Cookies.get('lastName'))) && (
+                            <div key={i} className="message">
+                                <p>{message.author}</p>
+                                <div className="message-container">
+                                    <div className="other-message">
+                                        {message.message}
+                                    </div>
+                                </div>
+                            </div>
+                        ) 
+                    )
+                )}
                 <div className="message-field">
                     <input
                         placeholder="Send Message..."
                         value={text}
-                        onChange={handleTextChange}
+                        onChange={textChange}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                sendMessage();
+                            }
+                        }}
                     />
-                    <button onClick={onSubmit}>Send</button>
+                    <button onClick={sendMessage}>Send</button>
                 </div>
             </div>
         </div>
@@ -175,7 +180,7 @@ const Messenger = ({ dispatch, isLoading, text, messages }) => {
                             <h3>{user.firstName} {user.surname}</h3>
                             <p>{user.username}</p>
                         </div>
-                        <button onClick={() => createChat(user._id)}>Chat</button>
+                        <button onClick={() => createChat([user.username, user.firstName + ' ' + user.lastName])}>Chat</button>
                     </div>
                 ))}
             </div>
@@ -186,7 +191,8 @@ const Messenger = ({ dispatch, isLoading, text, messages }) => {
             <nav>
                 <input
                     placeholder="Search User..."
-                    onChange={e => search(e.target.value)}
+                    value={query}
+                    onChange={search}
                 />
                 <button onClick={logOut}>Log Out</button>
             </nav>
@@ -198,6 +204,8 @@ const Messenger = ({ dispatch, isLoading, text, messages }) => {
 const mapStateToProps = state => ({
     isLoading: state.userReducer.isLoading,
     text: state.messageReducer.text,
+    currentGroup: state.groupReducer.group,
+    groups: state.groupReducer.groups,
     messages: state.messageReducer.messages,
 });
 

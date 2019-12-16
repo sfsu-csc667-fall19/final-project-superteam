@@ -1,7 +1,7 @@
 const express = require('express');
 const redis = require('redis');
 const cookierParser = require('cookie-parser');
-const { MongoClient, ObjectID } = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const client = redis.createClient();
 
@@ -31,7 +31,6 @@ app.post('/users/register', (req, res) => {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
-            groups: [],
         })
         .then((docs) => {
             console.log('Account', docs.insertedId, 'created!');
@@ -99,7 +98,7 @@ app.get('/users/verify', (req, res, next) => {
 });
 
 app.get('/users/verify', (req, res) => {
-    res.send(req.cookies.firstName + ' ' + req.cookies.lastName);
+    res.send('Verified!');
 });
 
 app.get('/users/getUsers', (req, res) => {
@@ -112,57 +111,4 @@ app.get('/users/getUsers', (req, res) => {
         .catch(console.log);
 });
 
-app.post('/users/createGroup', (req, res) => {
-    db.collection('groups')
-        .insertOne({
-            messages: [],
-        })
-        .then((docs) => {
-            console.log(docs.insertedId);
-            const updater = {
-                $push: {
-                    groups: docs.insertedId,
-                }
-            }
-
-            db.collection('groups')
-                .findOneAndUpdate({
-                    _id: docs.insertedId,
-                }, {
-                    $push: {
-                        messages: {
-                            group: docs.insertedId,
-                            message: "Welcome to your new group!",
-                            author: "Admin",
-                        }
-                    }
-                })
-                .then(() => {
-
-                })
-                .catch(console.log);
-
-            db.collection('users')
-                .findOneAndUpdate({
-                    _id: new ObjectID(req.cookies.id),
-                }, updater)
-                .then((docs) => {
-                    console.log(docs);
-                })
-                .catch(console.log);
-
-            db.collection('users')
-                .findOneAndUpdate({
-                    _id: new ObjectID(req.body.you),
-                }, updater)
-                .then(() => {
-
-                })
-                .catch(console.log);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-});
-
-app.listen(port, () => console.log(`Users on port ${port}!`))
+app.listen(port, () => console.log(`Users on port ${port}!`));
