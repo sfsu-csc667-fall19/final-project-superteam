@@ -102,6 +102,8 @@ services:
     #     condition: on-failure
     depends_on:
       - redis
+    environment:
+      - REDIS_HOST=redis
 networks:
   webnet:
   

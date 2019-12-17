@@ -8,7 +8,7 @@ const port = 4000;
 const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 const wsProxy = httpProxy.createProxyServer({
-    target: 'http://localhost:3003',
+    target: 'http://172.28.0.1:3003',
     ws: true,
 });
 
@@ -26,7 +26,7 @@ wsProxy.on('error', (err, req, socket) => {
 app.all('/websocket/*', (req, res) => {
     console.log('incoming ws');
     apiProxy.web(req, res, {
-        target: 'http://localhost:3003/websocket/',
+        target: 'http://172.28.0.1:3003/websocket',
     });
 });
 
@@ -34,6 +34,7 @@ app.all('/websocket/*', (req, res) => {
 app.all('/messenger/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
+        // target: 'http://localhost:3002',
         target: 'http://172.28.0.1:3002',
     });
 });
@@ -41,6 +42,7 @@ app.all('/messenger/*', (req, res) => {
 app.all('/users/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
+        // target: 'http://localhost:3001',
         target: 'http://172.28.0.1:3001',
     });
 });
@@ -48,6 +50,7 @@ app.all('/users/*', (req, res) => {
 app.all('*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
+        // target: 'http://localhost:3000',
         target: 'http://172.28.0.1:3000',
     });
 });
