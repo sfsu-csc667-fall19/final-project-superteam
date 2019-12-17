@@ -7,7 +7,7 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-    hostname: redis
+    # hostname: redis
     command: ["redis-server"]
     networks:
       - webnet
