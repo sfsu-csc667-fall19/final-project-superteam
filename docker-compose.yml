@@ -20,10 +20,12 @@ services:
     networks:
       - webnet
     deploy:
+      restart_policy: 
+        condition: on-failure
       resources:
         limits:
           cpus: '0.5'
-          memory: 50M
+          memory: 100M
   web:
     image: final-project
     ports:
