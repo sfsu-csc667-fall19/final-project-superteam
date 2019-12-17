@@ -1,6 +1,8 @@
 ## Available Scripts (Local Development Environment)
 
-To run this application, you need to run the following commands consecutively：
+Before you are ready to run this application, please open MangoDB and Redis in local environment. 
+
+Then, you will need to run the following commands consecutively：
 
 ### `npm install`
 
