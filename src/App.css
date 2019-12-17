@@ -90,6 +90,10 @@
   background-color: #46A4FF;
 }
 
+.messenger nav button:focus {
+  outline: none;
+}
+
 .messenger nav input {
   width: 400px;
   margin: auto;
@@ -240,4 +244,12 @@
   border-radius: 100px;
   background-color: #1E90FF;
   color: white;
+}
+
+.message-field button:hover {
+  background-color: #46A4FF;
+}
+
+.message-field button:focus {
+  outline: none;
 }

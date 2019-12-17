@@ -8,27 +8,26 @@ export const updateMessages = messages => {
 };
 
 export const insertMessage = message => {
-    console.log('inserting message')
     return {
         type: 'INSERT_MESSAGE',
         message,
     };
 };
 
-export const handlTextChange = text => {
+export const handleTextChange = text => {
     return {
         type: 'UPDATE_TEXT',
         text,
     };
 };
 
-export const submitMessage = (group) => (dispatch, getState) => {
+export const submitMessage = () => (dispatch, getState) => {
     const docs = {
-        group: group,
+        group: getState().groupReducer.group._id,
         message: getState().messageReducer.text,
     }
     axios.post('/messenger/postMessage', docs, { withCredentials: true })
         .then(() => { })
         .catch(e => console.log(e));
-    dispatch(handlTextChange(''));
+    dispatch(handleTextChange(''));
 };
