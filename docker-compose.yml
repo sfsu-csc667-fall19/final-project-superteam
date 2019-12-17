@@ -15,6 +15,9 @@ services:
       - messenger
       - users
       - redis
+  gateway:
+    image: gateway
+    ports: ["80:80"]
   users:
     image: users
     ports: ["3001:3001"]
