@@ -52,7 +52,7 @@ services:
       
   gateway:
     image: gateway
-    ports: ["80:80"]
+    ports: ["4000:4000"]
     deploy:
       replicas: 1
     #   restart_policy:
