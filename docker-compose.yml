@@ -19,6 +19,11 @@ services:
       - "27017:27017"
     networks:
       - webnet
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 50M
   web:
     image: final-project
     ports:
