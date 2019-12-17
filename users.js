@@ -3,7 +3,7 @@ const redis = require('redis');
 const cookierParser = require('cookie-parser');
 const { MongoClient } = require('mongodb');
 
-const client = redis.createClient();
+const client = redis.createClient(6379, 'redis');
 
 const app = express();
 const port = 3001;

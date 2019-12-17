@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookierParser = require('cookie-parser');
 const { MongoClient, ObjectID } = require('mongodb');
 
-const client = redis.createClient();
+const client = redis.createClient(6379, 'redis');
 
 const port = 3002;
 const app = express();
