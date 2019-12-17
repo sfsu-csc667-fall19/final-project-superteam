@@ -10,7 +10,7 @@ const port = 3001;
 app.use(express.json());
 app.use(cookierParser());
 
-const url = 'mongo://localhost:27017';
+const url = 'mongodb://localhost:27017';
 const mongo = new MongoClient(url, { useUnifiedTopology: true });
 
 mongo.connect((err) => {
