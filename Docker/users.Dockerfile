@@ -7,7 +7,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
-EXPOSE 3002
+# COPY . .
+COPY ./users.js /main
 
-CMD ["node", "messenger.js"]
+EXPOSE 3001
+
+CMD ["node", "users.js"]

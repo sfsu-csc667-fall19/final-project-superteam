@@ -7,7 +7,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
-EXPOSE 80
+# COPY . .
+COPY ./gateway.js /main
+EXPOSE 4000
 
 CMD ["node", "gateway.js"]
