@@ -15,21 +15,21 @@ apiProxy.on('error', (err, req, res) => {
 app.all('/messenger/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: 'http://localhost:3002',
+        target: 'http://172.28.0.1:3002',
     });
 });
 
 app.all('/users/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: 'http://localhost:3001',
+        target: 'http://172.28.0.1:3001',
     });
 });
 
 app.all('*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: 'http://localhost:3000',
+        target: 'http://172.28.0.1:3000',
     });
 });
 
