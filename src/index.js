@@ -14,7 +14,7 @@ import { createStore, applyMiddleware } from 'redux';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-const webSocket = new WebSocket('ws://localhost:3003');
+const webSocket = new WebSocket('ws://172.28.0.1:3003');
 
 webSocket.onmessage = (message) => {
     const parsed = JSON.parse(message.data);

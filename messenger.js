@@ -28,6 +28,7 @@ app.post('/messenger/postMessage', (req, res) => {
     console.log(req.body);
     const message = {
         group: ObjectID.createFromHexString(req.body.group),
+        // group: req.body.group,
         author: req.cookies.firstName + ' ' + req.cookies.lastName,
         message: req.body.message,
     }
