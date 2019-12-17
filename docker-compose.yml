@@ -74,7 +74,8 @@ services:
     ports: ["3002:3002"]
     networks:
       - webnet
-    # deploy:
+    deploy:
+      replicas: 1
     #   restart_policy:
     #     condition: on-failure
     depends_on:
@@ -85,7 +86,8 @@ services:
     ports: ["3003:3003"]
     networks:
       - webnet
-    # deploy:
+    deploy:
+      replicas: 1
     #   restart_policy:
     #     condition: on-failure
     depends_on:
