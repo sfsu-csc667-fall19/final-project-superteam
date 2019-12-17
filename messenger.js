@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookierParser());
 
-const url = 'mongo:27017';
+const url = 'mongodb:27017';
 const mongoClient = new MongoClient(url, { useUnifiedTopology: true });
 
 mongoClient.connect((err) => {
