@@ -39,23 +39,23 @@ services:
     #     limits:
     #       cpus: '0.001'
     #       memory: 50M
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
   gateway:
     image: gateway
     ports: ["80:80"]
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
   users:
     image: users
     ports: ["3001:3001"]
     networks:
       - webnet
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - mongo
       - redis
@@ -64,9 +64,9 @@ services:
     ports: ["3002:3002"]
     networks:
       - webnet
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - mongo
       - redis
@@ -75,9 +75,9 @@ services:
     ports: ["3003:3003"]
     networks:
       - webnet
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - redis
 networks:
