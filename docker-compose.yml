@@ -41,9 +41,10 @@ services:
       # - messenger
       # - users
       - redis
-    # deploy:
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
     #   resources:
     #     limits:
     #       cpus: '0.001'
@@ -52,7 +53,8 @@ services:
   gateway:
     image: gateway
     ports: ["80:80"]
-    # deploy:
+    deploy:
+      replicas: 1
     #   restart_policy:
     #     condition: on-failure
   users:
@@ -60,7 +62,8 @@ services:
     ports: ["3001:3001"]
     networks:
       - webnet
-    # deploy:
+    deploy:
+      replicas: 1
     #   restart_policy:
     #     condition: on-failure
     depends_on:
