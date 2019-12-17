@@ -9,7 +9,7 @@ services:
         constraints: [node.role == manager]
     # hostname: redis
     # command: ["redis-server", "--append-only", "yes"]
-    commmand: ["redis-server"]
+    command: ["redis-server"]
 
     networks:
       - webnet
