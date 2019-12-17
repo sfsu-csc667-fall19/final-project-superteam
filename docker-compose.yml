@@ -25,7 +25,7 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 100M
+          memory: 200M
   web:
     image: final-project
     ports:
