@@ -46,6 +46,8 @@ services:
   users:
     image: users
     ports: ["3001:3001"]
+    networks:
+      - webnet
     # deploy:
     #   restart_policy:
     #     condition: on-failure
@@ -55,6 +57,8 @@ services:
   messenger:
     image: messenger
     ports: ["3002:3002"]
+    networks:
+      - webnet
     # deploy:
     #   restart_policy:
     #     condition: on-failure
@@ -64,6 +68,8 @@ services:
   websocket:
     image: websocket
     ports: ["3003:3003"]
+    networks:
+      - webnet
     # deploy:
     #   restart_policy:
     #     condition: on-failure
