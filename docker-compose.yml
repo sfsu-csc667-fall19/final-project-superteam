@@ -15,24 +15,39 @@ services:
       - messenger
       - users
       - redis
+    deploy:
+      restart_policy:
+        condition: on-failure
   gateway:
     image: gateway
     ports: ["80:80"]
+    deploy:
+      restart_policy:
+        condition: on-failure
   users:
     image: users
     ports: ["3001:3001"]
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - mongo
       - redis
   messenger:
     image: messenger
     ports: ["3002:3002"]
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - mongo
       - redis
   websocket:
     image: websocket
     ports: ["3003:3003"]
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - redis
   redis:
