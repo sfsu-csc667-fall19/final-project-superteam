@@ -57,6 +57,10 @@ services:
       replicas: 1
     #   restart_policy:
     #     condition: on-failure
+    environment:
+      - USERS_HOST=http://users:3001
+      - MESSENGER_HOST=http://messenger:3002
+      - WEBSOCKET_HOST=http://websocket:3003/websocket
   users:
     image: users
     ports: ["3001:3001"]
@@ -69,6 +73,9 @@ services:
     depends_on:
       - mongo
       - redis
+    environment:
+      - MONGO_HOST=mongodb://mongodb:27017
+      - REDIS_HOST=redis
   messenger:
     image: messenger
     ports: ["3002:3002"]
@@ -81,6 +88,9 @@ services:
     depends_on:
       - mongo
       - redis
+    environment:
+      - MONGO_HOST=mongodb://mongodb:27017
+      - REDIS_HOST=redis
   websocket:
     image: websocket
     ports: ["3003:3003"]
