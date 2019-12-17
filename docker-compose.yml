@@ -22,10 +22,10 @@ services:
     deploy:
       restart_policy: 
         condition: on-failure
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 200M
+      # resources:
+      #   limits:
+      #     cpus: '0.5'
+      #     memory: 200M
   web:
     image: final-project
     ports:

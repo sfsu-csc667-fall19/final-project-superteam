@@ -7,8 +7,8 @@ COPY package*.json ./
 
 RUN npm install
 
-# COPY . .
-COPY ./users.js /main
+COPY . .
+# COPY ./users.js /main
 
 EXPOSE 3001
 

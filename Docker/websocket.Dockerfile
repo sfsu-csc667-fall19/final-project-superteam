@@ -7,8 +7,8 @@ COPY package*.json ./
 
 RUN npm install
 
-# COPY . .
-COPY ./websocket.js /main
+COPY . .
+# COPY ./websocket.js /main
 
 EXPOSE 3003
 
