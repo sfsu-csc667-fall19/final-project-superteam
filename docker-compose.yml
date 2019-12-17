@@ -35,6 +35,11 @@ services:
       - users
       - redis
     # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.001'
+    #       memory: 50M
+    # deploy:
     #   restart_policy:
     #     condition: on-failure
   gateway:
@@ -77,3 +82,4 @@ services:
       - redis
 networks:
   webnet:
+  
