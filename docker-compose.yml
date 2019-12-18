@@ -60,7 +60,7 @@ services:
     environment:
       - USERS_HOST=http://users:3001
       - MESSENGER_HOST=http://messenger:3002
-      - WEBSOCKET_HOST=http://websocket:3003/websocket
+      - WEBSOCKET_HOST=http://websocket:3003
       - FRONTEND_HOST=http://final-socket:3000
   users:
     image: users
