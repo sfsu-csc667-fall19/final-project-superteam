@@ -62,6 +62,8 @@ services:
       - MESSENGER_HOST=http://messenger:3002
       - WEBSOCKET_HOST=http://websocket:3003
       - FRONTEND_HOST=http://frontend:3000
+    networks:
+      - webnet
   users:
     image: jordancarlson/users
     ports: ["3001:3001"]
