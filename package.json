@@ -34,7 +34,7 @@
     "build-messenger" : "docker build -f Docker/messenger.Dockerfile -t messenger . && docker tag messenger jordancarlson/messenger && docker push jordancarlson/messenger",
     "build-frontend" : "docker build -t frontend . && docker tag frontend jordancarlson/frontend && docker push jordancarlson/frontend",
     "build-users" : "docker build -f Docker/users.Dockerfile -t users . && docker tag users jordancarlson/users && docker push jordancarlson/users",
-    "build-all-docker" : "npm run build-gateway && npm run build-websocket && npm run build-messenger && npm run build-frontend && npm build-users",
+    "build-all-docker" : "npm run build-gateway && npm run build-websocket && npm run build-messenger && npm run build-frontend && npm run build-users",
     "deploy" : "docker swarm init && docker-compose -f docker-compose.yml pull && docker stack deploy -c docker-compose.yml final-app",
     "stop": "docker stack remove final-app"
   },
