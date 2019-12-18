@@ -11,6 +11,6 @@ app.get('*', (req, res) => {
 
 const port = 3000;
 
-app.listen(port);
+app.listen(process.env.FRONTEND_HOST || port);
 
 console.log(`Front end listening on port ${port}`);
