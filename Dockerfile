@@ -11,7 +11,7 @@ COPY ./src /main/src
 COPY ./frontend.js /main
 
 RUN npm install
-RUN npm build
+RUN npm run build
 
 EXPOSE 3000
 
