@@ -8,6 +8,7 @@ COPY ./package.json /main
 COPY ./package-lock.json /main
 COPY ./public /main/public
 COPY ./src /main/src
+COPY ./frontend.js /main
 
 RUN npm install
 RUN npm build
