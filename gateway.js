@@ -8,7 +8,7 @@ const port = 4000;
 const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 const wsProxy = httpProxy.createProxyServer({
-    target: 'http://172.31.16.1:3003',
+    target: process.env.WEBSOCKET_HOST || 'http://localhost:3003',
     ws: true,
 });
 
@@ -26,7 +26,7 @@ wsProxy.on('error', (err, req, socket) => {
 app.all('/websocket/*', (req, res) => {
     console.log('incoming ws');
     apiProxy.web(req, res, {
-        target: 'http://172.31.16.1/websocket',
+        target: process.env.WEBSOCKET_HOST || 'http://localhost:3003/websocket',
     });
 });
 
@@ -34,24 +34,21 @@ app.all('/websocket/*', (req, res) => {
 app.all('/messenger/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        // target: 'http://localhost:3002',
-        target: 'http://172.31.16.1:3002',
+        target: process.env.MESSENGER_HOST || 'http://localhost:3002',
     });
 });
 
 app.all('/users/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        // target: 'http://localhost:3001',
-        target: 'http://172.31.16.1:3001',
+        target: process.env.USERS_HOST || 'http://localhost:3001',
     });
 });
 
 app.all('*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        // target: 'http://localhost:3000',
-        target: 'http://172.31.16.1:3000',
+        target: process.env.FRONTEND_HOST || 'http://localhost:3000',
     });
 });
 

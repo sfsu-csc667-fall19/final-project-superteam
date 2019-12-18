@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cookierParser = require('cookie-parser');
 const { MongoClient, ObjectID } = require('mongodb');
 
-const client = redis.createClient(6379, 'redis');
+// const client = redis.createClient(6379, 'redis');
+const client = redis.createClient({host: process.env.REDIS_HOST || 'localhost'})
 // const client = redis.createClient();
 
 
@@ -13,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookierParser());
 
-const url = 'mongodb://mongo:27017';
+const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 // const url = 'mongodb://localhost:27017';
 
 const mongoClient = new MongoClient(url, { useUnifiedTopology: true });

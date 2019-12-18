@@ -3,8 +3,9 @@ const redis = require('redis');
 const cookierParser = require('cookie-parser');
 const { MongoClient } = require('mongodb');
 
-const client = redis.createClient(6379, 'redis');
+// const client = redis.createClient(6379, 'redis');
 // const client = redis.createClient();
+const client = redis.createClient({host: process.env.REDIS_HOST || 'localhost'})
 
 
 const app = express();
@@ -12,8 +13,8 @@ const port = 3001;
 app.use(express.json());
 app.use(cookierParser());
 
-const url = 'mongodb://mongo:27017';
-// const url = 'mongodb://localhost:27017';
+// const url = 'mongodb://mongo:27017';
+const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 
 const mongo = new MongoClient(url, { useUnifiedTopology: true });
 
