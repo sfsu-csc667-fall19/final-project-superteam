@@ -2,13 +2,13 @@ FROM node:10-alpine
 
 
 
-WORKDIR /main/
-COPY package*.json ./
-
+WORKDIR /main
+COPY ./package*.json /main
 RUN npm install
 
-COPY . .
-# COPY ./gateway.js /main
+COPY ./gateway.js /main
+
+# COPY . .
 EXPOSE 4000
 
 CMD ["node", "gateway.js"]

@@ -2,13 +2,13 @@ FROM node:10-alpine
 
 
 
-WORKDIR /main/
-COPY package*.json ./
+WORKDIR /main
+COPY ./package*.json /main
 
 RUN npm install
 # RUN npm build
 
-COPY . .
+COPY . /main
 EXPOSE 3000
 
 
