@@ -6,12 +6,13 @@ WORKDIR /main
 # COPY ./package*.json /main
 COPY ./package.json /main
 COPY ./package-lock.json /main
+COPY ./public /main/public
+COPY ./src /main/src
 
 RUN npm install
-# RUN npm build
+RUN npm build
 
-COPY . /main
 EXPOSE 3000
 
 
-CMD ["npm", "start"]
+CMD ["node", "frontend.js"]

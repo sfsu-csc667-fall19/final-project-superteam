@@ -8,7 +8,7 @@ const port = 4000;
 const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 const wsProxy = httpProxy.createProxyServer({
-    target: process.env.WEBSOCKET_HOST,
+    target: process.env.WEBSOCKET_HOST || 'http://localhost:3003',
     ws: true,
 });
 
@@ -26,7 +26,7 @@ wsProxy.on('error', (err, req, socket) => {
 app.all('/websocket/*', (req, res) => {
     console.log('incoming ws');
     apiProxy.web(req, res, {
-        target: process.env.WEBSOCKET_HOST+'/websocket',
+        target: process.env.WEBSOCKET_HOST+'/websocket' || 'http://localhost:3003/websocket',
     });
 });
 
@@ -34,21 +34,21 @@ app.all('/websocket/*', (req, res) => {
 app.all('/messenger/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: process.env.MESSENGER_HOST,
+        target: process.env.MESSENGER_HOST || 'http://localhost:3002',
     });
 });
 
 app.all('/users/*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: process.env.USERS_HOST,
+        target: process.env.USERS_HOST || 'http://localhost:3001',
     });
 });
 
 app.all('*', (req, res) => {
     console.log(req.path);
     apiProxy.web(req, res, {
-        target: process.env.FRONTEND_HOST,
+        target: process.env.FRONTEND_HOST || 'http://localhost:3000',
     });
 });
 

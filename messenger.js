@@ -15,9 +15,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookierParser());
 
-const url = process.env.MONGO_HOST;
+// const url = process.env.MONGO_HOST;
 
-// const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
+const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 // const url = 'mongodb://localhost:27017';
 
 const mongoClient = new MongoClient(url, { useUnifiedTopology: true });
@@ -27,6 +27,7 @@ mongoClient.connect((err) => {
         console.log(err);
         process.exit(1);
     }
+    console.log(process.env.MONGO_HOST);
     console.log('Successfully connected to server!');
 });
 

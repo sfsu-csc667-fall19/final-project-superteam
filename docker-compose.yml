@@ -26,21 +26,21 @@ services:
       #   limits:
       #     cpus: '0.5'
       #     memory: 200M
-  web:
-    image: final-project
+  frontend:
+    image: jordancarlson/frontend
     ports:
       - "3000:3000"
     networks:
       - webnet
     environment:
       - REDIS_HOST=redis
-    depends_on:
-      - mongo
-      # - gateway
-      # - websocket
-      # - messenger
-      # - users
-      - redis
+    # depends_on:
+    #   - mongo
+    #   # - gateway
+    #   # - websocket
+    #   # - messenger
+    #   # - users
+    #   - redis
     deploy:
       restart_policy:
         condition: on-failure
@@ -51,7 +51,7 @@ services:
     #       memory: 50M
       
   gateway:
-    image: gateway
+    image: jordancarlson/gateway
     ports: ["4000:4000"]
     deploy:
       replicas: 1
@@ -61,9 +61,9 @@ services:
       - USERS_HOST=http://users:3001
       - MESSENGER_HOST=http://messenger:3002
       - WEBSOCKET_HOST=http://websocket:3003
-      - FRONTEND_HOST=http://final-socket:3000
+      - FRONTEND_HOST=http://frontend:3000
   users:
-    image: users
+    image: jordancarlson/users
     ports: ["3001:3001"]
     networks:
       - webnet
@@ -78,7 +78,7 @@ services:
       - MONGO_HOST=mongodb://mongo:27017
       - REDIS_HOST=redis
   messenger:
-    image: messenger
+    image: jordancarlson/messenger
     ports: ["3002:3002"]
     networks:
       - webnet
@@ -93,7 +93,7 @@ services:
       - MONGO_HOST=mongodb://mongo:27017
       - REDIS_HOST=redis
   websocket:
-    image: websocket
+    image: jordancarlson/websocket
     ports: ["3003:3003"]
     networks:
       - webnet
