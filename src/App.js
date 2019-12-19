@@ -4,8 +4,6 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Messenger from './pages/messenger';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import Chat from './components/Chat/Chat';
-import Join from './components/Join/Join';
 import './App.css';
 
 function App() {  
@@ -17,10 +15,6 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/" component={Home} />
       </Switch>
-      <Router>
-        <Route path="/" exact component={Join} />
-        <Route path="/chat" component={Chat} />
-      </Router>
     </div>
   );
 }
