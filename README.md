@@ -1,6 +1,6 @@
 ## Available Scripts (Local Development Environment)
 
-Before you are ready to run this application, please open MangoDB and Redis in local environment. 
+Before you are ready to run this application, please open MongoDB and Redis in local environment. 
 
 Then, you will need to run the following commands consecutively：
 
@@ -14,7 +14,7 @@ It will take a while until all the dependency packages are properly installed
 
 ### `node messenger.js`
 
-You need to run this command so that this service can be linked to mangoDB to communicate message data.
+You need to run this command so that this service can be linked to MongoDB to communicate message data.
 
 ### `node user.js`
 
