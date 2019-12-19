@@ -1,3 +1,4 @@
+Cloud Server Link: http://18.188.240.145:4000/
 ## Available Scripts (Local Development Environment)
 
 Before you are ready to run this application, please open MongoDB and Redis in local environment. 
@@ -33,7 +34,7 @@ To run websocket.js to make sure the real-time updating between different users.
 Static file serving
 
 This is the final step to initialize this React application.
-
+Then you can visit via http://localhost:4000
 
 
 
