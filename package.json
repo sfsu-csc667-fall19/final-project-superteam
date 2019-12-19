@@ -14,18 +14,29 @@
     "mongodb": "^3.4.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-emoji": "^0.5.0",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+    "react-scroll-to-bottom": "^1.3.2",
     "redis": "^2.8.0",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-gateway" : "docker build -f Docker/gateway.Dockerfile -t gateway . && docker tag gateway jordancarlson/gateway && docker push jordancarlson/gateway",
+    "build-websocket" : "docker build -f Docker/websocket.Dockerfile -t websocket . && docker tag websocket jordancarlson/websocket && docker push jordancarlson/websocket",
+    "build-messenger" : "docker build -f Docker/messenger.Dockerfile -t messenger . && docker tag messenger jordancarlson/messenger && docker push jordancarlson/messenger",
+    "build-frontend" : "docker build -t frontend . && docker tag frontend jordancarlson/frontend && docker push jordancarlson/frontend",
+    "build-users" : "docker build -f Docker/users.Dockerfile -t users . && docker tag users jordancarlson/users && docker push jordancarlson/users",
+    "build-all-docker" : "npm run build-gateway && npm run build-websocket && npm run build-messenger && npm run build-frontend && npm run build-users",
+    "deploy" : "docker swarm init && docker-compose -f docker-compose.yml pull && docker stack deploy -c docker-compose.yml final-project-superteam",
+    "stop": "docker stack remove final-project-superteam"
   },
   "eslintConfig": {
     "extends": "react-app"

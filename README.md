@@ -8,6 +8,10 @@ Then, you will need to run the following commands consecutively：
 
 It will take a while until all the dependency packages are properly installed
 
+### `npm run build`
+
+Necessary to run the frontend.js file
+
 ### `sudo node gateway.js`
 
 "sudo" is recommended. For some local development environment, error will thrown without "sudo"
@@ -24,7 +28,9 @@ To keep this service on to ensure user login and register functions.
 
 To run websocket.js to make sure the real-time updating between different users.
 
-### `npm run start`
+### `node frontend.js`
+
+Static file serving
 
 This is the final step to initialize this React application.
 

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
 import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer';
 import { Provider } from 'react-redux';
@@ -15,6 +14,9 @@ import { createStore, applyMiddleware } from 'redux';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
+// const webSocket = new WebSocket('ws://localhost:3003');
+// const webSocket = new WebSocket('ws://172.28.0.1:3003');
+// const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
 const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket/');
 
 webSocket.onmessage = (message) => {
